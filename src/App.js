@@ -29,32 +29,50 @@ class App extends Component {
   }
 
   // Lifecycle method componentDidMount
-  componentDidMount(){
-    //API call to fetch credits data
-    fetch('https://johnnylaicode.github.io/api/credits.json')
-      .then(response => response.json())
-      .then(data => {
-        const credits = data.credits || [];
-        this.setState(prevState => ({
-          creditList:credits,
-          accountBalance: this.calculateBalance(credits,prevState.debitList || []),
-        }));
-      })
-      .catch(error => console.error("Error fetching credits: ",error));
+  // componentDidMount(){
+  //   //API call to fetch credits data
+  //   fetch('https://johnnylaicode.github.io/api/credits.json')
+  //     .then(response => response.json())
+  //     .then(data => {
+  //       const credits = data.credits || [];
+  //       this.setState(prevState => ({
+  //         creditList:credits,
+  //         accountBalance: this.calculateBalance(credits,prevState.debitList || []),
+  //       }));
+  //     })
+  //     .catch(error => console.error("Error fetching credits: ",error));
     
-    //API call to fetch debits data
-    fetch('https://johnnylaicode.github.io/api/debits.json')
-      .then(response => response.json())
-      .then(data => {
-        const debits = data.debits || [];
-        this.setState(prevState => ({
-          debitList:debits,
-          accountBalance: this.calculateBalance(prevState.creditList || [],debits),
-        }));
-      })
-    .catch(error => console.error("Error fetching debits: ",error));
-  }
+  //   //API call to fetch debits data
+  //   fetch('https://johnnylaicode.github.io/api/debits.json')
+  //     .then(response => response.json())
+  //     .then(data => {
+  //       const debits = data.debits || [];
+  //       this.setState(prevState => ({
+  //         debitList:debits,
+  //         accountBalance: this.calculateBalance(prevState.creditList || [],debits),
+  //       }));
+  //     })
+  //   .catch(error => console.error("Error fetching debits: ",error));
+  // }
 
+  componentDidMount() {
+    const creditsURL = "https://johnnylaicode.github.io/api/credits.json";
+    const debitsURL = "https://johnnylaicode.github.io/api/debits.json";
+  
+    Promise.all([
+      fetch(creditsURL).then(res => res.json()),
+      fetch(debitsURL).then(res => res.json())
+    ])
+    .then(([credits, debits]) => {
+      this.setState({
+        creditList: credits,
+        debitList: debits,
+        accountBalance: this.calculateBalance(credits, debits)
+      });
+    })
+    .catch(error => console.error("Error fetching data:", error));
+  }
+  
   //add debit and credit functions here 
   //helper to calculate account balance
   calculateBalance = (credits = [],debits = []) => {
