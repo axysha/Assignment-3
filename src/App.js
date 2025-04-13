@@ -34,10 +34,10 @@ class App extends Component {
     fetch('https://johnnylaicode.github.io/api/credits.json')
       .then(response => response.json())
       .then(data => {
-        const credits = data.credits;
+        const credits = data.credits || [];
         this.setState(prevState => ({
           creditList:credits,
-          accountBalance: this.calculateBalance(credits,prevState.debitList),
+          accountBalance: this.calculateBalance(credits,prevState.debitList || []),
         }));
       })
       .catch(error => console.error("Error fetching credits: ",error));
@@ -46,10 +46,10 @@ class App extends Component {
     fetch('https://johnnylaicode.github.io/api/debits.json')
       .then(response => response.json())
       .then(data => {
-        const debits = data.debits;
+        const debits = data.debits || [];
         this.setState(prevState => ({
           debitList:debits,
-          accountBalance: this.calculateBalance(prevState.creditList,debits),
+          accountBalance: this.calculateBalance(prevState.creditList || [],debits),
         }));
       })
     .catch(error => console.error("Error fetching debits: ",error));
@@ -57,7 +57,7 @@ class App extends Component {
 
   //add debit and credit functions here 
   //helper to calculate account balance
-  calculateBalance = (credits,debits) => {
+  calculateBalance = (credits = [],debits = []) => {
     const totalCredits = credits.reduce((sum,c) => sum + Number(c.amount),0);
     const totalDebits = debits.reduce((sum,d)=>sum+Number(d.amount),0);
     return parseFloat((totalCredits-totalDebits).toFixed(2));
