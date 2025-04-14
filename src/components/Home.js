@@ -6,12 +6,13 @@ The Home component is used to demonstrate the use of Link.
 import React, {Component} from 'react';
 import AccountBalance from './AccountBalance';
 import {Link} from 'react-router-dom';
+import '../App.css';
 
 class Home extends Component {
   render() {
     return (
       <div>
-        <img src="https://picsum.photos/200/200" alt="bank"/>
+        <img src={`${process.env.PUBLIC_URL}/logo192.png`} alt="bank"/>
 
         <h1>Bank of React</h1>
 
@@ -19,9 +20,9 @@ class Home extends Component {
         <br/>
         <Link to="/login">Login</Link>
         <br/>
-        <Link to="/credits">Credits (to be implemented in the Assignment)</Link>
+        <Link to="/credits">Credits</Link>
         <br/>
-        <Link to="/debits">Debits (to be implemented in the Assignment)</Link>
+        <Link to="/debits">Debits</Link>
         <br/><br/>
         <AccountBalance accountBalance={this.props.accountBalance}/>
       </div>
