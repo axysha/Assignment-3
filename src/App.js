@@ -28,33 +28,6 @@ class App extends Component {
     };
   }
 
-  // Lifecycle method componentDidMount
-  // componentDidMount(){
-  //   //API call to fetch credits data
-  //   fetch('https://johnnylaicode.github.io/api/credits.json')
-  //     .then(response => response.json())
-  //     .then(data => {
-  //       const credits = data.credits || [];
-  //       this.setState(prevState => ({
-  //         creditList:credits,
-  //         accountBalance: this.calculateBalance(credits,prevState.debitList || []),
-  //       }));
-  //     })
-  //     .catch(error => console.error("Error fetching credits: ",error));
-    
-  //   //API call to fetch debits data
-  //   fetch('https://johnnylaicode.github.io/api/debits.json')
-  //     .then(response => response.json())
-  //     .then(data => {
-  //       const debits = data.debits || [];
-  //       this.setState(prevState => ({
-  //         debitList:debits,
-  //         accountBalance: this.calculateBalance(prevState.creditList || [],debits),
-  //       }));
-  //     })
-  //   .catch(error => console.error("Error fetching debits: ",error));
-  // }
-
   componentDidMount() {
     const creditsURL = "https://johnnylaicode.github.io/api/credits.json";
     const debitsURL = "https://johnnylaicode.github.io/api/debits.json";
