@@ -15,6 +15,20 @@ const Debits = (props) => {
       return <li key={debit.id}>{debit.amount} {debit.description} {date}</li>
     });
   }
+
+  //Handle Form Submissions
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const newDebit = {
+      id:Math.random().toString(),
+      description: event.target.description.value,
+      amount: Number(event.target.amount.value),
+      date: new Date().toISOString(),
+    };
+    props.addDebit(newDebit);
+    event.target.reset();
+  };
+
   // Render the list of Debit items and a form to input new Debit item
   return (
     <div>
@@ -22,11 +36,14 @@ const Debits = (props) => {
 
       {debitsView()}
 
-      <form onSubmit={props.addDebit}>
-        <input type="text" name="description" />
-        <input type="number" name="amount" />
+      <form onSubmit={handleSubmit}>
+        <input type="text" name="description" placeholder='Description' required />
+        <input type="number" name="amount" placeholder='Amount' required/>
         <button type="submit">Add Debit</button>
       </form>
+
+      <h3> Account Balance: ${props.accountBalance.toFixed(2)}</h3>
+
       <br/>
       <Link to="/">Return to Home</Link>
     </div>
